@@ -1,11 +1,16 @@
+# Load packages
 library(shiny)
+
+# Load data
+pred <- readRDS("/home/tyatabe/Onedrive/Dev folder/AsthMap/data/pred.rds")
+
 
 # App of predicted rates asthma attack emergency dept visits  
 
 ui <- fluidPage(
   
   # App title ----
-  titlePanel("Asthma"),
+  titlePanel(h2("RiskMap")),
   
   # Sidebar layout with input and output definitions ----
   sidebarLayout(
@@ -18,7 +23,7 @@ ui <- fluidPage(
                an asthma attack on any given year (CDC)"),
       
       # Zip code
-      textInput("zipcode", label = h3("Enter a zipcode"), value = "95616"),
+      textInput("zip.text", label = h3("Enter a zipcode"), value = "95616"),
       
       # Input: Slider for the number of bins ----
       sliderInput(inputId = "bins",
@@ -33,7 +38,7 @@ ui <- fluidPage(
     mainPanel(
       
       # Output selected zipcode
-      textOutput(label = "selected_var"),
+      textOutput("zipcode"),
       # Output: Histogram ----
       plotOutput(outputId = "distPlot")
       
@@ -44,8 +49,10 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  output$selected_var <- renderText({ 
-    paste("The predicted asthma attack rate at", input$zipcode, "is...")
+  output$zipcode <- renderText({ 
+    paste("The predicted asthma attack rate per 10,000 at", input$zip.text, "is", 
+          round(pred$pred[pred$zip.text==input$zip.text]), 
+          "the mean predicted rate for california is", round(mean(pred$pred)))
   })
   
   output$distPlot <- renderPlot({
