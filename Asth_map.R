@@ -2,8 +2,8 @@
 library(shiny)
 library(leaflet)
 # Load data
-pred <- readRDS("pred.rds")
-ca_preds <- readRDS("ca_preds.rds")
+pred <- readRDS("/home/ubuntu/AsthMap/pred.rds")
+ca_preds <- readRDS("/home/ubuntu/AsthMap/ca_preds.rds")
 popup <- paste0("Zip Code: ", ca_preds$zip, "<br>", 
         "Predicted rate of ashtma attacks (per 10,000) is ", 
         round(ca_preds$pred,1), ". This is ", 
