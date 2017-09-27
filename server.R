@@ -2,31 +2,7 @@
 library(shiny)
 library(leaflet)
 # Load data
-pred <- readRDS("pred.rds")
-ca_preds <- readRDS("ca_preds.rds")
-popup <- paste0("Zip Code: ", ca_preds$zip, "<br>", 
-        "Predicted rate of ashtma attacks (per 10,000) is ", 
-        round(ca_preds$pred,1), ". This is ", 
-        round(ca_preds$pred/mean(ca_preds$pred, na.rm=T)*100, 1),
-        "% of the mean for CA")
-pal <- colorNumeric(
-  palette = "YlGnBu",
-  domain = ca_preds$pred
-)
-
-map3 <-leaflet() %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(data = ca_preds, 
-              fillColor = ~pal(pred), 
-              color = "#b2aeae", # you need to use hex colors
-              fillOpacity = 0.7, 
-              weight = 1, 
-              smoothFactor = 0.2,
-              popup = popup) %>%
-  addLegend(pal = pal, 
-            values = ca_preds$pred, 
-            position = "bottomright", 
-            title = "Predicted asthma attack rates<br>per 10,000 people") 
+load('app_data.RData')
 # App of predicted rates asthma attack emergency dept visits  
 
 
