@@ -1,6 +1,7 @@
 # Load packages
 library(shiny)
 library(leaflet)
+library(sp)
 # Load data
 load('app_data.RData')
 # App of predicted rates asthma attack emergency dept visits  
